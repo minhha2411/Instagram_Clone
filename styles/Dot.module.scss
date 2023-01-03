@@ -1,0 +1,25 @@
+@import "base.scss";
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 20%;
+  position: absolute;
+  z-index: 50;
+  bottom: 5%;
+  left: 40%;
+  cursor: pointer;
+}
+
+.dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background-color: $grey;
+  z-index: 50;
+}
+
+.activeDot {
+  background-color: $white;
+}

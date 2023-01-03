@@ -1,0 +1,18 @@
+@import "./base.scss";
+@import "./globals.scss";
+
+
+
+.forwardIcon,
+.previewIcon {
+  @include arrowStyle;
+}
+
+.previewIcon {
+  @include previewIconStyle;
+}
+
+// This is a style for changing position of arrow in a post
+.position {
+  @include arrowPosition;
+}

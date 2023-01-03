@@ -1,0 +1,95 @@
+@import "./base.scss";
+@import "./globals.scss";
+
+.container {
+  margin: 2em 0;
+  width: 60%;
+  background-color: $white;
+  border-radius: 0.5rem;
+  border: 1px solid $border;
+  height: max-content;
+
+  .card__header {
+    width: 95%;
+    margin: 1rem auto;
+    @include flexCenter;
+    justify-content: space-between;
+
+    .header__info {
+      @include flexCenter;
+    }
+    .header__nickname {
+      margin-left: 0.5rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+  }
+  .card__image {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    z-index: 1;
+  }
+  .card__actions {
+    margin: 0.5rem auto;
+    .card__actions__container {
+      @include centerDiv;
+      justify-content: space-between;
+      margin: 1rem auto;
+    }
+    .card__actions__left {
+      @include flexCenter;
+      svg {
+        margin-right: 0.75rem;
+      }
+    }
+    .card__actions__right {
+      @include flexCenter;
+    }
+  }
+
+  .card__information {
+    @include centerDivWithFlexColumn;
+    .card__like,
+    .card__content,
+    .card__comment,
+    .card__time {
+      margin-bottom: 0.75rem;
+    }
+    .like__container {
+      @include flexCenterVertical;
+      span {
+        cursor: pointer;
+      }
+    }
+    .like__list {
+      margin-left: 0.5rem;
+    }
+    .card__comment,
+    .card__time {
+      cursor: pointer;
+      color: $grey1;
+      font-size: $fs3;
+    }
+    .card__time {
+      font-size: $fs2;
+    }
+    b {
+      cursor: pointer;
+    }
+  }
+
+  .add__comment {
+    border-top: 1px solid $grey2;
+    .comment__container {
+      @include centerDivWithFlexRow;
+      align-items: center;
+      svg {
+        cursor: pointer;
+      }
+      p {
+        color: $blue1;
+      }
+    }
+  }
+}

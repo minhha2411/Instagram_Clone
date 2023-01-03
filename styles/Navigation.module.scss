@@ -1,0 +1,21 @@
+@import "./globals.scss";
+@import "./base.scss";
+
+.container {
+  display: flex;
+  .container__icon {
+    margin-left: 0.5rem;
+  }
+  &:hover {
+    background-color: $background;
+    cursor: pointer;
+    border-radius: 1.5rem;
+  }
+  .spacing {
+    margin: 1.5rem 0 2rem 1rem;
+  }
+}
+
+.container * {
+  @include flexCenter;
+}

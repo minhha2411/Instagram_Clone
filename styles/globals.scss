@@ -1,0 +1,161 @@
+@import "./base.scss";
+
+$marginTop: (
+  mt1: 5px,
+  mt2: 10px,
+  mt3: 15px,
+  mt4: 20px,
+  mt5: 25px,
+  mt6: 30px,
+  mt7: 35px,
+  mt8: 40px,
+);
+
+$marginBottom: (
+  mb1: 5px,
+  mb2: 10px,
+  mb3: 15px,
+  mb4: 20px,
+  mb5: 25px,
+  mb6: 30px,
+  mb7: 35px,
+  mb8: 40px,
+);
+
+$fontSize: (
+  fs1: 5px,
+  fs2: 10px,
+  fs3: 15px,
+  fs4: 20px,
+);
+
+$blue: (
+  blue1: #b3dbff,
+  blue2: #47afff,
+  blue3: #0095f6,
+);
+
+$hoverColor: (
+  header__nickname: gray,
+  header__more: gray,
+);
+
+$cursorPointerClass: (
+  header__nickname: "",
+  header__more: "",
+  header__info: "",
+  card__actions__left: "",
+  card__actions__right: "",
+);
+
+@each $key, $value in $marginBottom {
+  .base--#{$key} {
+    margin-bottom: $value;
+  }
+}
+
+@each $key, $value in $marginTop {
+  .base--#{$key} {
+    margin-top: $value;
+  }
+}
+
+@each $key, $value in $blue {
+  .color--#{$key} {
+    background-color: $value;
+  }
+}
+
+@each $key, $value in $fontSize {
+  .color--#{$key} {
+    font-size: $value;
+  }
+}
+
+@each $key, $value in $hoverColor {
+  .#{$key} {
+    &:hover {
+      color: $value;
+    }
+  }
+}
+
+@each $key, $value in $cursorPointerClass {
+  .#{$key} {
+    cursor: pointer;
+  }
+}
+
+.base--center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.base--button__disable {
+  background-color: $blue1;
+}
+
+.base--button__active {
+  background-color: $blue3;
+}
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flexCenterVertical {
+  display: flex;
+  align-items: center;
+}
+
+
+@mixin flexCenterHorizontal {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin arrowStyle {
+  background: transparent;
+  position: absolute;
+  z-index: 20;
+  right: 0.5rem;
+  top: 2.75rem;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: $white1;
+  cursor: pointer;
+  @include flexCenter;
+}
+
+@mixin previewIconStyle {
+  left: 0.5rem;
+}
+
+@mixin arrowPosition {
+  top: 50%;
+}
+
+@mixin centerDiv {
+  display: flex;
+  width: 95%;
+  margin: 0 auto;
+}
+
+@mixin centerDivWithFlexRow {
+  @include centerDiv;
+  flex-direction: row;
+}
+
+@mixin centerDivWithFlexColumn {
+  @include centerDiv;
+  flex-direction: column;
+}
+
+.MuiSvgIcon-fontSizeSmall {
+  font-size: 14px;
+}
