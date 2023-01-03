@@ -2,6 +2,7 @@
 @import "./globals.scss";
 
 .container {
+  position: relative;
   margin: 2em 0;
   width: 60%;
   background-color: $white;
@@ -39,12 +40,46 @@
     }
     .card__actions__left {
       @include flexCenter;
+      .actions__like {
+        @include flexCenter;
+        svg {
+          animation: out 0.2s;
+        }
+        svg:hover {
+          animation: in 0.1s;
+        }
+        @keyframes out {
+          from {
+            transform: scale(1);
+          }
+          to {
+            transform: scale(1.2);
+          }
+        }
+
+        @keyframes in {
+          from {
+            transform: scale(1);
+          }
+          to {
+            transform: scale(1);
+          }
+        }
+      }
+
       svg {
         margin-right: 0.75rem;
+        &:hover {
+          color: $grey1;
+        }
       }
     }
     .card__actions__right {
       @include flexCenter;
+      cursor: pointer;
+      &:hover {
+        color: $grey1;
+      }
     }
   }
 
@@ -87,9 +122,18 @@
       svg {
         cursor: pointer;
       }
-      p {
+      .post__active {
+        color: $blue4;
+      }
+      .post__unactive {
         color: $blue1;
       }
+    }
+    .emoji__container {
+      position: absolute;
+      bottom: 8%;
+      left: 0;
+      z-index: 9999;
     }
   }
 }

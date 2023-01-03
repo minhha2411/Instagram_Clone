@@ -1,19 +1,23 @@
 import { Avatar, Input } from "antd";
 import {
   BookmarkBorderIcon,
+  BookmarkIcon,
   ChatBubbleOutlineIcon,
   FavoriteBorderIcon,
+  FavoriteIcon,
   MoreHorizIcon,
   SendOutlinedIcon,
   SentimentSatisfiedAltIcon,
 } from "icons";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import styles from "styles/Card.module.scss";
 import image from "images/1099264.jpg";
 import Dot from "components/Dot";
 import useArrowHookInCard from "hooks/useArrowHookInCard";
 import ArrowCard from "components/ArrowCard";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 interface CardProps {
   imageNumber: number;
@@ -35,6 +39,45 @@ function Card({
   avatarImage = "",
   nickName = "",
 }: CardProps): React.ReactElement {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#ed4956",
+      },
+      secondary: {
+        main: "#8e8e8e",
+      },
+      info: {
+        main: "#000000",
+      },
+    },
+  });
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+  const [canPost, setCanPost] = useState<boolean>(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const [inputMessage, setInputMessage] = useState<string>("");
+  const handleClickLike = () => {
+    setIsLiked(!isLiked);
+  };
+  const handleClickBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+  };
+  const handleClickEmoji = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+  const handleChangeInputMessage = (e: any) => {
+    setInputMessage(e.target.value);
+    if (e.target.value) {
+      setCanPost(true);
+      return;
+    }
+    setCanPost(false);
+  };
+  const handleOnEmojiClick = (emojiData: EmojiClickData) => {
+    console.log("Emoji Clicked ....", emojiData);
+  };
+
   const {
     currentImageIndex,
     showForwardIcon,
@@ -78,12 +121,24 @@ function Card({
         <div className={styles.card__actions}>
           <div className={styles.card__actions__container}>
             <div className={styles.card__actions__left}>
-              <FavoriteBorderIcon />
-              <ChatBubbleOutlineIcon />
-              <SendOutlinedIcon />
+              <ThemeProvider theme={theme}>
+                <div className={styles.actions__like}>
+                  {isLiked ? (
+                    <FavoriteIcon color="primary" onClick={handleClickLike} />
+                  ) : (
+                    <FavoriteBorderIcon onClick={handleClickLike} />
+                  )}
+                </div>
+                <ChatBubbleOutlineIcon />
+                <SendOutlinedIcon />
+              </ThemeProvider>
             </div>
             <div className={styles.card__actions__right}>
-              <BookmarkBorderIcon />
+              {isBookmarked ? (
+                <BookmarkIcon onClick={handleClickBookmark} />
+              ) : (
+                <BookmarkBorderIcon onClick={handleClickBookmark} />
+              )}
             </div>
           </div>
         </div>
@@ -111,9 +166,25 @@ function Card({
         </div>
         <div className={styles.add__comment}>
           <div className={styles.comment__container}>
-            <SentimentSatisfiedAltIcon />
-            <Input placeholder="Add a comment..." bordered={false}/>
-            <p>Post</p>
+            <div className={styles.emoji__container}>
+              {showEmojiPicker ? (
+                <EmojiPicker onEmojiClick={handleOnEmojiClick} />
+              ) : (
+                ""
+              )}
+            </div>
+            <SentimentSatisfiedAltIcon onClick={handleClickEmoji} />
+            <Input
+              placeholder="Add a comment..."
+              bordered={false}
+              value={inputMessage}
+              onChange={handleChangeInputMessage}
+            />
+            <p
+              className={canPost ? styles.post__active : styles.post__unactive}
+            >
+              Post
+            </p>
           </div>
         </div>
       </div>
