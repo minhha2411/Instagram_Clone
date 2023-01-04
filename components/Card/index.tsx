@@ -10,23 +10,20 @@ import {
   SentimentSatisfiedAltIcon,
 } from "icons";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import styles from "styles/Card.module.scss";
 import image from "images/1099264.jpg";
 import Dot from "components/Dot";
 import useArrowHookInCard from "hooks/useArrowHookInCard";
 import ArrowCard from "components/ArrowCard";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import EmojiPicker from "emoji-picker-react";
 import useClickOutSideEmoji from "hooks/useClickOutSideEmoji";
 import useEscapeEmoji from "hooks/useEscapeEmoji";
-
-interface CardProps {
-  imageNumber: number;
-  listImagesUrl: string[];
-  avatarImage: string;
-  nickName: string;
-}
+import CardProps from "interface/Card";
+import { themeForCard } from "utils";
+import Theme from "Themes/Card";
+import useMessageHook from "hooks/useMessageHook";
+import useCardActions from "hooks/useCardActions";
 
 function Card({
   imageNumber = 6,
@@ -38,53 +35,28 @@ function Card({
     "https://bloganchoi.com/wp-content/uploads/2022/03/iu-xinh-dep.jpg",
     "https://info-imgs.vgcloud.vn/2022/08/16/02/than-tuong-cua-nhieu-than-tuong-kpop-iu-lai-co-moi-quan-he-nhu-nguoi-la-voi-em-trai-8.jpg",
   ],
-  avatarImage = "",
-  nickName = "",
+  avatarImage = "https://pbs.twimg.com/profile_images/962170088941019136/lgpCD8X4_400x400.jpg",
+  nickName = "bok.doll2",
+  firstLikePerson = "jonas_tsai_tw",
+  firstComment = "모든날 다 좋은날🐶💕",
+  totalComments = 23,
+  postTime = 2,
 }: CardProps): React.ReactElement {
   const wrapperRef = useRef(null);
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#ed4956",
-      },
-      secondary: {
-        main: "#8e8e8e",
-      },
-      info: {
-        main: "#000000",
-      },
-    },
-  });
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
-  const [canPost, setCanPost] = useState<boolean>(false);
-  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-  const [inputMessage, setInputMessage] = useState<string>("");
-  const handleClickLike = () => {
-    setIsLiked(!isLiked);
-  };
-  const handleClickBookmark = () => {
-    setIsBookmarked(!isBookmarked);
-  };
-  const handleClickEmoji = () => {
-    setShowEmojiPicker(!showEmojiPicker);
-  };
-  const handleChangeInputMessage = (e: any) => {
-    setShowEmojiPicker(false);
-    setInputMessage(e.target.value);
-    if (e.target.value) {
-      setCanPost(true);
-      return;
-    }
-    setCanPost(false);
-  };
-  const handleOnEmojiClick = (emojiData: EmojiClickData) => {
-    setInputMessage(inputMessage + emojiData?.emoji);
-  };
-
-  useClickOutSideEmoji(wrapperRef, setShowEmojiPicker);
-  useEscapeEmoji(setShowEmojiPicker);
-
+  // Logic in like, share, bookmark section
+  const { isLiked, isBookmarked, handleClickLike, handleClickBookmark } =
+    useCardActions();
+  // Logic in comment section
+  const {
+    canPost,
+    showEmojiPicker,
+    inputMessage,
+    handleClickEmoji,
+    handleChangeInputMessage,
+    handleOnEmojiClick,
+    setShowEmojiPicker,
+  } = useMessageHook();
+  // Logic in card image, video transition
   const {
     currentImageIndex,
     showForwardIcon,
@@ -92,16 +64,16 @@ function Card({
     handlePreviousIconClick,
     handleForwardIconClick,
   } = useArrowHookInCard({ numberOfImages: imageNumber });
+  // handle close emoji when click outside or press Escape
+  useClickOutSideEmoji(wrapperRef, setShowEmojiPicker);
+  useEscapeEmoji(setShowEmojiPicker);
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.card__header}>
           <div className={styles.header__info}>
-            <Avatar
-              size={40}
-              src="https://pbs.twimg.com/profile_images/962170088941019136/lgpCD8X4_400x400.jpg"
-            />
-            <div className={styles.header__nickname}>bok.doll2</div>
+            <Avatar size={40} src={avatarImage} />
+            <div className={styles.header__nickname}>{nickName}</div>
           </div>
           <div className={styles.header__more}>
             <MoreHorizIcon />
@@ -128,7 +100,7 @@ function Card({
         <div className={styles.card__actions}>
           <div className={styles.card__actions__container}>
             <div className={styles.card__actions__left}>
-              <ThemeProvider theme={theme}>
+              <Theme theme={themeForCard}>
                 <div className={styles.actions__like}>
                   {isLiked ? (
                     <FavoriteIcon color="primary" onClick={handleClickLike} />
@@ -138,7 +110,7 @@ function Card({
                 </div>
                 <ChatBubbleOutlineIcon />
                 <SendOutlinedIcon />
-              </ThemeProvider>
+              </Theme>
             </div>
             <div className={styles.card__actions__right}>
               {isBookmarked ? (
@@ -152,24 +124,23 @@ function Card({
         <div className={styles.card__information}>
           <div className={styles.card__like}>
             <div className={styles.like__container}>
-              <Avatar
-                size={25}
-                src="https://pbs.twimg.com/profile_images/962170088941019136/lgpCD8X4_400x400.jpg"
-              />
+              <Avatar size={25} src={avatarImage} />
               <div className={styles.like__list}>
-                Liked by <b>jonas_tsai_tw</b> and <b>others</b>
+                Liked by <b>{firstLikePerson}</b> and <b>others</b>
               </div>
             </div>
           </div>
           <div className={styles.card__content}>
             <div className={styles.content__container}>
               <div>
-                <b>bok.doll2</b> 모든날 다 좋은날🐶💕
+                <b>{nickName}</b> {firstComment}
               </div>
             </div>
           </div>
-          <div className={styles.card__comment}>View all 23 comments</div>
-          <div className={styles.card__time}>2 DAYS AGO</div>
+          <div className={styles.card__comment}>
+            View all {totalComments} comments
+          </div>
+          <div className={styles.card__time}>{postTime} DAYS AGO</div>
         </div>
         <div className={styles.add__comment}>
           <div className={styles.comment__container}>

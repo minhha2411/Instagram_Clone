@@ -123,7 +123,11 @@
         cursor: pointer;
       }
       .post__active {
-        color: $blue4;
+        color: $blue3;
+        &:hover {
+          color: $blue5;
+          cursor: pointer;
+        }
       }
       .post__unactive {
         color: $blue1;
