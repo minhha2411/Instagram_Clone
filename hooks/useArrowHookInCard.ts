@@ -41,9 +41,6 @@ function useArrowHookInCard({ numberOfImages }: ArrowHookProps) {
     }
   };
 
-  console.log(currentImageIndex);
-  console.log(showForwardIcon);
-
   return {
     currentImageIndex,
     showForwardIcon,

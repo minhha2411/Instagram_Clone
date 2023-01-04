@@ -10,7 +10,7 @@ import {
   SentimentSatisfiedAltIcon,
 } from "icons";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "styles/Card.module.scss";
 import image from "images/1099264.jpg";
 import Dot from "components/Dot";
@@ -18,6 +18,8 @@ import useArrowHookInCard from "hooks/useArrowHookInCard";
 import ArrowCard from "components/ArrowCard";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import useClickOutSideEmoji from "hooks/useClickOutSideEmoji";
+import useEscapeEmoji from "hooks/useEscapeEmoji";
 
 interface CardProps {
   imageNumber: number;
@@ -39,6 +41,7 @@ function Card({
   avatarImage = "",
   nickName = "",
 }: CardProps): React.ReactElement {
+  const wrapperRef = useRef(null);
   const theme = createTheme({
     palette: {
       primary: {
@@ -67,6 +70,7 @@ function Card({
     setShowEmojiPicker(!showEmojiPicker);
   };
   const handleChangeInputMessage = (e: any) => {
+    setShowEmojiPicker(false);
     setInputMessage(e.target.value);
     if (e.target.value) {
       setCanPost(true);
@@ -75,8 +79,11 @@ function Card({
     setCanPost(false);
   };
   const handleOnEmojiClick = (emojiData: EmojiClickData) => {
-    console.log("Emoji Clicked ....", emojiData);
+    setInputMessage(inputMessage + emojiData?.emoji);
   };
+
+  useClickOutSideEmoji(wrapperRef, setShowEmojiPicker);
+  useEscapeEmoji(setShowEmojiPicker);
 
   const {
     currentImageIndex,
@@ -168,7 +175,12 @@ function Card({
           <div className={styles.comment__container}>
             <div className={styles.emoji__container}>
               {showEmojiPicker ? (
-                <EmojiPicker onEmojiClick={handleOnEmojiClick} />
+                <div ref={wrapperRef}>
+                  <EmojiPicker
+                    onEmojiClick={handleOnEmojiClick}
+                    searchDisabled={true}
+                  />
+                </div>
               ) : (
                 ""
               )}
@@ -179,6 +191,7 @@ function Card({
               bordered={false}
               value={inputMessage}
               onChange={handleChangeInputMessage}
+              onFocus={() => setShowEmojiPicker(false)}
             />
             <p
               className={canPost ? styles.post__active : styles.post__unactive}
