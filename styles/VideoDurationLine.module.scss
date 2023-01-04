@@ -1,0 +1,20 @@
+@use "globals.scss" as *;
+
+.container {
+  @include centerDiv;
+
+  .line {
+    height: 3px;
+    margin-right: 0.1rem;
+    border-radius: 0.1rem;
+    background: #ffffff;
+    opacity: 0.3;
+  }
+  .lineDisable {
+    background: #ffffff;
+    opacity: 0.3;
+  }
+  .lineActive {
+    background-color: white;
+  }
+}
