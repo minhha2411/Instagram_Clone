@@ -1,5 +1,5 @@
 import VideoDurationLine from "components/VideoDurationLine";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styles from "styles/Video.module.scss";
 
 function Video() {
@@ -20,10 +20,11 @@ function Video() {
             <VideoDurationLine
               numberOfLine={NUMBER_OF_VIDEO}
               lineWidth={LINE_WIDTH}
+              videoDuration={5}
             />
           </div>
           <video controls id="autoplay">
-            <source src="/video1.mp4" type="video/mp4" />
+            <source src="video/video1.mp4" type="video/mp4" />
           </video>
         </div>
       </div>
