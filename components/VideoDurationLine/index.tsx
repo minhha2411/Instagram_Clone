@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "styles/VideoDurationLine.module.scss";
 import styled, { keyframes } from "styled-components";
-
+import { PlayArrowIcon } from "icons";
 interface VideoDurationLineProps {
   numberOfLine: number;
   lineWidth: number;
   videoDuration: number;
+  // playState: boolean;
 }
 const DEFAULT_LINE_HEIGHT = "2.5px";
 
@@ -13,7 +14,14 @@ function VideoDurationLine({
   numberOfLine,
   lineWidth,
   videoDuration,
-}: VideoDurationLineProps): React.ReactElement {
+}: // playState,
+VideoDurationLineProps): React.ReactElement {
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+
+  const handlePlayVideo = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   const VIDEO_LINE_WIDTH = 300;
   const MAX_PERCENT = 100;
   // EX: 20%
@@ -63,6 +71,10 @@ function VideoDurationLine({
   const videoKeyFrames = keyframes`
   ${createVideoRunningKeyFrames(percenStep, widthStep)}
   `;
+  console.log(
+    "videoKeyFrames",
+    createVideoRunningKeyFrames(percenStep, widthStep)
+  );
 
   const LineRun = styled.div`
     position: absolute;
@@ -76,6 +88,7 @@ function VideoDurationLine({
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   `;
+  // animation-play-state: ${isPlaying ? "running" : "paused"};
 
   return (
     <div className={styles.container}>
@@ -85,9 +98,16 @@ function VideoDurationLine({
             className={styles.line}
             style={{ width: `${lineWidth}px`, height: DEFAULT_LINE_HEIGHT }}
           ></div>
-          <LineRun />
+          {index == 0 ? <LineRun /> : ""}
         </div>
       ))}
+
+      <div className={styles.video__action}>
+        <PlayArrowIcon
+          onClick={handlePlayVideo}
+          className={`${isPlaying ? styles.play : styles.paused}`}
+        />
+      </div>
     </div>
   );
 }

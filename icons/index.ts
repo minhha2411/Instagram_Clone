@@ -15,7 +15,8 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export {
   HomeIcon,
@@ -35,5 +36,6 @@ export {
   SendOutlinedIcon,
   SentimentSatisfiedAltIcon,
   FavoriteIcon,
-  BookmarkIcon
+  BookmarkIcon,
+  PlayArrowIcon,
 };

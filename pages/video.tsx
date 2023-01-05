@@ -1,12 +1,14 @@
 import VideoDurationLine from "components/VideoDurationLine";
-import React from "react";
+import React, { useState } from "react";
 import styles from "styles/Video.module.scss";
+import { PlayArrowIcon } from "icons";
 
 function Video() {
   const VIDEO_WIDTH = 330;
   const NUMBER_OF_VIDEO = 5;
   const TOTAL_LINE_WIDTH = VIDEO_WIDTH * 0.95;
   const LINE_WIDTH = TOTAL_LINE_WIDTH / NUMBER_OF_VIDEO;
+
 
   return (
     <div className={styles.container}>
@@ -21,7 +23,9 @@ function Video() {
               numberOfLine={NUMBER_OF_VIDEO}
               lineWidth={LINE_WIDTH}
               videoDuration={5}
+              // playState={isPlaying}
             />
+
           </div>
           <video controls id="autoplay">
             <source src="video/video1.mp4" type="video/mp4" />

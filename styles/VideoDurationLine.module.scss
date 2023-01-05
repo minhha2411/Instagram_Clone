@@ -16,4 +16,19 @@
   .lineActive {
     background-color: white;
   }
+  .play {
+    animation-play-state: running;
+  }
+  .paused {
+    animation-play-state: paused;
+  }
+
+  .video__action {
+    @include centerDiv;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    svg:hover {
+      cursor: pointer;
+    }
+  }
 }
